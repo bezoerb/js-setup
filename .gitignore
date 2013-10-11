@@ -16,3 +16,22 @@ results
 
 npm-debug.log
 node_modules
+# Created by http://gitignore.io
+
+### PhPStorm ###
+.idea/
+# Created by http://gitignore.io
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes

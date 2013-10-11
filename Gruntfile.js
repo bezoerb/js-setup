@@ -33,7 +33,8 @@ module.exports = function (grunt) {
         },
 
         clean: {
-            server: '.tmp'
+            server: '.tmp',
+			dist: ["scripts/main.js","scripts/main.js.map"]
         },
 
 		// Testing Tools

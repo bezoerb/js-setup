@@ -1,0 +1,22 @@
+{
+  "name": "loglevel",
+  "version": "0.4.0",
+  "main": "dist/loglevel.min.js",
+  "dependencies": {},
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "homepage": "https://github.com/pimterry/loglevel",
+  "_release": "0.4.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.4.0",
+    "commit": "514e1ed56b9037bfb04a1a4922354bd76d6f65a8"
+  },
+  "_source": "git://github.com/pimterry/loglevel.git",
+  "_target": "~0.4.0",
+  "_originalSource": "loglevel",
+  "_direct": true
+}

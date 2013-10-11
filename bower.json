@@ -8,6 +8,6 @@
     "loglevel": "~0.4.0"
   },
   "devDependencies": {
-    "qunit": "~1.12.0"
+	"qunit": "~1.12.0"
   }
 }

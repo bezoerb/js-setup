@@ -22,12 +22,12 @@ module.exports = function (grunt) {
                 files: [
                     '*.html',
                     '.tmp/styles/{,*/}*.css',
-                    '{.tmp,js/{,*/}*.js',
+                    '{.tmp,js/**/*.js',
                     'images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             },
 			test: {
-				files: ['scripts/{,*/}*.js'],
+				files: ['scripts/**/*.js'],
 				tasks: ['test']
 			}
         },
@@ -43,10 +43,10 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                'scripts/src/{,*/}*.js',
+                'scripts/src/**/*.js',
 				// no tests on external code,
 				// won't make you happy
-                '!scripts/src/vendor/{,*/}*.js'
+                '!scripts/src/vendor/**/*.js'
            //     'test/{,*/}*.js'
             ]
         },

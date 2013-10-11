@@ -18,6 +18,9 @@ npm-debug.log
 node_modules
 # Created by http://gitignore.io
 
+
+scripts/vendor/*
+
 ### PhPStorm ###
 .idea/
 # Created by http://gitignore.io

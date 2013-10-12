@@ -45,6 +45,7 @@ module.exports = function (grunt) {
             all: [
                 'Gruntfile.js',
                 'scripts/src/**/*.js',
+                '!scripts/src/config.js',
 				// no tests on external code,
 				// won't make you happy
                 '!scripts/src/vendor/**/*.js'
@@ -65,7 +66,7 @@ module.exports = function (grunt) {
                     name                    : 'vendor/requirejs/require',
                     include                 : 'main',
                     out                     : 'scripts/main.js',
-                    mainConfigFile          : 'scripts/src/main.js',
+                    mainConfigFile          : 'scripts/src/config.js',
                     preserveLicenseComments : false,
                     useStrict               : true,
                     wrap                    : true,

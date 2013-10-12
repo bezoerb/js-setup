@@ -1,12 +1,5 @@
 require.config({
-	baseUrl: '../scripts/src',
-	paths: {
-		tests: '../../test/tests',
-		jquery: 'vendor/jquery/jquery',
-		loglevel: 'vendor/loglevel/dist/loglevel.min',
-		requirejs: 'vendor/requirejs/require',
-		'conponent-dummy': 'components/dummy'
-	}
+	baseUrl: '../scripts/src'
 });
 
 //phantom.log('test');

@@ -1,12 +1,3 @@
-require.config({
-	paths: {
-		tests: '../../test/tests',
-		jquery: 'vendor/jquery/jquery',
-		loglevel: 'vendor/loglevel/dist/loglevel.min',
-		requirejs: 'vendor/requirejs/require',
-		'conponent-dummy': 'components/dummy'
-	}
-});
 
 
 //Load common code that includes config, then load the app logic for this page.

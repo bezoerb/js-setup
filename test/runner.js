@@ -1,20 +1,20 @@
-
-
 require.config({
-	baseUrl: '../scripts/src'
+	baseUrl: '../scripts/src',
+	paths: {
+		tests: '../../test/tests',
+		jquery: 'vendor/jquery/jquery',
+		loglevel: 'vendor/loglevel/dist/loglevel.min',
+		requirejs: 'vendor/requirejs/require',
+		'conponent-dummy': 'components/dummy'
+	}
 });
 
+//phantom.log('test');
 
-//Load common code that includes config, then load the app logic for this page.
-require(['config'], function () {
-	//phantom.log('test');
+// require the unit tests.
+require(['tests/dummyTest'], function(dummyTest){
 
-	// require the unit tests.
-	require(['tests/dummyTest'], function(dummyTest){
-
-		dummyTest.run();
-		QUnit.start();
-	});
+	dummyTest.run();
+	QUnit.start();
 });
-
 

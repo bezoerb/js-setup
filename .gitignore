@@ -19,7 +19,7 @@ node_modules
 # Created by http://gitignore.io
 
 
-scripts/vendor/*
+scripts/vendor
 
 ### PhPStorm ###
 .idea/

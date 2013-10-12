@@ -5,6 +5,8 @@ define(function (require) {
 	// load dependencies
 	var $ = require('jquery'),
 		log = require('loglevel'),
+		// require components
+		dummy = require('components/dummy'),
 		self = {};
 
     // API methods
@@ -15,6 +17,8 @@ define(function (require) {
          */
         init: function init() {
             log.debug('Running jQuery %s', $().jquery);
+			log.debug('Dummy.a = ' + dummy.a);
+
         }
     });
 

@@ -65,7 +65,7 @@ module.exports = function (grunt) {
                     name                    : 'vendor/requirejs/require',
                     include                 : 'main',
                     out                     : 'scripts/main.js',
-                    mainConfigFile          : 'scripts/src/config.js',
+                    mainConfigFile          : 'scripts/src/main.js',
                     preserveLicenseComments : false,
                     useStrict               : true,
                     wrap                    : true,

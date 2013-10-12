@@ -10,8 +10,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="../webapp/dist/styles/8e84585f.main.css">
-        <script src="../webapp/dist/scripts/vendor/f7f27360.modernizr.js"></script>
+        <!--link rel="stylesheet" href="../webapp/dist/styles/8e84585f.main.css"-->
+        <script src="scripts/src/vendor/modernizr/modernizr.js"></script>
     </head>
     <body>
         <!--[if lt IE 10]>
@@ -59,7 +59,9 @@
 
         </div>
 
+        <!-- build:js scripts/main.js -->
+        <script data-main="scripts/src/main" src="scripts/src/vendor/requirejs/require.js"></script>
+        <!-- endbuild -->
 
-        <script src="scripts/main.js"></script>
 </body>
 </html>

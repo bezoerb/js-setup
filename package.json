@@ -16,7 +16,9 @@
     "time-grunt": "~0.1.1",
     "grunt-contrib-less": "~0.7.0",
     "grunt-contrib-jasmine": "~0.5.2",
-    "grunt-contrib-qunit": "~0.3.0"
+    "grunt-contrib-qunit": "~0.3.0",
+    "grunt-mocha": "~0.4.1",
+    "connect-livereload": "~0.3.0"
   },
   "engines": {
     "node": ">=0.8.0"

@@ -1,5 +1,11 @@
-// Generated on 2013-10-09 using generator-webapp 0.4.3
 'use strict';
+
+var LIVERELOAD_PORT = 35729;
+var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
+var mountFolder = function (connect, dir) {
+	return connect.static(require('path').resolve(dir));
+};
+
 
 // # Globbing
 // for performance reasons we're only matching one level down:
@@ -17,7 +23,7 @@ module.exports = function (grunt) {
         watch: {
             livereload: {
                 options: {
-                    livereload: '<%= connect.options.livereload %>'
+                    livereload: LIVERELOAD_PORT
                 },
                 files: [
                     '*.html',
@@ -54,7 +60,21 @@ module.exports = function (grunt) {
         },
 
 		qunit: {
-			all: ['test/**/*.html']
+			all: ['test/qunit/**/*.html']
+		},
+
+		mocha: {
+			all: {
+				options: {
+					// Pipe output console.log from your JS to grunt. False by default.
+					log: true,
+
+					// Select a Mocha reporter
+					// http://visionmedia.github.com/mocha/#reporters
+					reporter: 'Landing',
+					urls: ['http://localhost:<%= connect.options.port %>/test/mocha/test.html']
+				}
+			}
 		},
 
 
@@ -79,29 +99,66 @@ module.exports = function (grunt) {
 
         bower: {
             options: {
-                exclude: ['modernizr','qunit']
+                exclude: ['modernizr','qunit','mocha']
             },
             all: {
-                rjsConfig: 'scripts/src/main.js'
+                rjsConfig: 'scripts/src/config.js'
             }
         },
-        connect: {
-            options: {
-                port: 9000,
-                livereload: 35729,
-                // change this to '0.0.0.0' to access the server from outside
-                hostname: 'localhost'
-            },
-            livereload: {
-                options: {
-                    open: true,
-                    base: [
-                        '.tmp',
-                        '.'
-                    ]
-                }
-            }
-        }
+		connect: {
+			options: {
+				port: 9000,
+				// change this to '0.0.0.0' to access the server from outside
+				hostname: 'localhost'
+			},
+			livereload: {
+				options: {
+					middleware: function (connect) {
+						return [
+							lrSnippet,
+							mountFolder(connect, '.tmp'),
+							mountFolder(connect, '.')
+						];
+					}
+				}
+			},
+			test: {
+				options: {
+					middleware: function (connect) {
+						return [
+							mountFolder(connect, '.tmp'),
+							mountFolder(connect, '.')
+						];
+					}
+				}
+			}
+		}
+
+//        connect: {
+//            options: {
+//                port: 9000,
+//                livereload: 35729,
+//                // change this to '0.0.0.0' to access the server from outside
+//                hostname: 'localhost'
+//            },
+//            livereload: {
+//                options: {
+//                    open: true,
+//                    base: [
+//                        '.tmp',
+//                        '.'
+//                    ]
+//                }
+//            },
+//			mocha: {
+//				options: {
+//					hostname: 'localhost',
+//					base: [
+//						'test/mocha'
+//					]
+//				}
+//			}
+//        }
     });
 
     grunt.registerTask('server', function (target) {
@@ -117,9 +174,21 @@ module.exports = function (grunt) {
     });
 
 
-    grunt.registerTask('test', [
+	grunt.registerTask('test',  function () {
+		grunt.task.run(['jshint:all']);
+
+		// mocha
+		grunt.task.run(['clean:server', 'connect:test','mocha']);
+
+		// qunit
+		grunt.task.run(['qunit:all']);
+	});
+
+    grunt.registerTask('tsest', [
         'jshint:all',
-		'qunit:all'
+		'qunit:all',
+		'connect:mocha',
+		'mocha'
     ]);
 
     grunt.registerTask('build', [

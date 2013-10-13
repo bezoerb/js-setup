@@ -60,7 +60,14 @@ module.exports = function (grunt) {
         },
 
 		qunit: {
-			all: ['test/qunit/**/*.html']
+			//all: ['test/qunit/**/*.html']
+			all: {
+				options: {
+					// Pipe output console.log from your JS to grunt. False by default.
+					log: true,
+					urls: ['http://localhost:<%= connect.options.port %>/test/qunit/test.html']
+				}
+			}
 		},
 
 		mocha: {
@@ -73,6 +80,23 @@ module.exports = function (grunt) {
 					// http://visionmedia.github.com/mocha/#reporters
 					reporter: 'Landing',
 					urls: ['http://localhost:<%= connect.options.port %>/test/mocha/test.html']
+				}
+			}
+		},
+
+		jasmine: {
+			all: {
+				//src: 'scripts/src/**/*.js',
+				options: {
+					specs: 'test/jasmine/spec/*Spec.js',
+					host: 'http://localhost:<%= connect.options.port %>/',
+					template: require('grunt-template-jasmine-requirejs'),
+					templateOptions: {
+						requireConfigFile: 'scripts/src/config.js',
+						requireConfig: {
+							baseUrl: 'scripts/src/'
+						}
+					}
 				}
 			}
 		},
@@ -177,11 +201,17 @@ module.exports = function (grunt) {
 	grunt.registerTask('test',  function () {
 		grunt.task.run(['jshint:all']);
 
+		// testserver
+		grunt.task.run(['clean:server', 'connect:test']);
+
 		// mocha
-		grunt.task.run(['clean:server', 'connect:test','mocha']);
+		grunt.task.run(['mocha']);
+
+		// jasmine
+		grunt.task.run(['jasmine']);
 
 		// qunit
-		grunt.task.run(['qunit:all']);
+		grunt.task.run(['qunit']);
 	});
 
     grunt.registerTask('tsest', [

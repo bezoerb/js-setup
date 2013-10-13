@@ -1,5 +1,5 @@
 "use strict";
-define(['conponent-dummy'], function(dummy) {
+define(['component-dummy'], function(dummy) {
 	return {
 		run: function() {
 

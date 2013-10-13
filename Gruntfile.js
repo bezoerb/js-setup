@@ -65,7 +65,7 @@ module.exports = function (grunt) {
 				options: {
 					// Pipe output console.log from your JS to grunt. False by default.
 					log: true,
-					urls: ['http://localhost:<%= connect.options.port %>/test/qunit/test.html']
+					urls: ['http://localhost:<%= connect.options.port %>/test/qunit.html']
 				}
 			}
 		},
@@ -78,8 +78,9 @@ module.exports = function (grunt) {
 
 					// Select a Mocha reporter
 					// http://visionmedia.github.com/mocha/#reporters
-					reporter: 'Landing',
-					urls: ['http://localhost:<%= connect.options.port %>/test/mocha/test.html']
+					reporter: 'Spec',
+					//reporter: 'Landing',
+					urls: ['http://localhost:<%= connect.options.port %>/test/mocha.html']
 				}
 			}
 		},

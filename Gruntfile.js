@@ -28,19 +28,19 @@ module.exports = function (grunt) {
                 files: [
                     '*.html',
                     '.tmp/styles/{,*/}*.css',
-                    '{.tmp,js/**/*.js',
-                    'images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                    'htdocs/scripts/src/**/*.js',
+                    'htdocs/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             },
 			test: {
-				files: ['scripts/**/*.js'],
+				files: ['htdocs/scripts/**/*.js'],
 				tasks: ['test']
 			}
         },
 
         clean: {
             server: '.tmp',
-			dist: ['scripts/main.js','scripts/main.js.map']
+			dist: ['htdocs/scripts/main.js','htdocs/scripts/main.js.map']
         },
 
 		// Testing Tools
@@ -50,11 +50,11 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                'scripts/src/**/*.js',
-                '!scripts/src/config.js',
+                'htdocs/scripts/src/**/*.js',
+                '!htdocs/scripts/src/config.js',
 				// no tests on external code,
 				// won't make you happy
-                '!scripts/src/vendor/**/*.js'
+                '!htdocs/scripts/src/vendor/**/*.js'
            //     'test/{,*/}*.js'
             ]
         },
@@ -89,13 +89,13 @@ module.exports = function (grunt) {
 			all: {
 				//src: 'scripts/src/**/*.js',
 				options: {
-					specs: 'test/jasmine/spec/*Spec.js',
+					specs: 'htdocs/test/jasmine/spec/*Spec.js',
 					host: 'http://localhost:<%= connect.options.port %>/',
 					template: require('grunt-template-jasmine-requirejs'),
 					templateOptions: {
-						requireConfigFile: 'scripts/src/config.js',
+						requireConfigFile: 'htdocs/scripts/src/config.js',
 						requireConfig: {
-							baseUrl: 'scripts/src/'
+							baseUrl: 'htdocs/scripts/src/'
 						}
 					}
 				}
@@ -107,11 +107,11 @@ module.exports = function (grunt) {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    baseUrl                 : 'scripts/src',
+                    baseUrl                 : 'htdocs/scripts/src',
                     name                    : 'vendor/requirejs/require',
                     include                 : 'main',
-                    out                     : 'scripts/main.js',
-                    mainConfigFile          : 'scripts/src/config.js',
+                    out                     : 'htdocs/scripts/main.js',
+                    mainConfigFile          : 'htdocs/scripts/src/config.js',
                     preserveLicenseComments : false,
                     useStrict               : true,
                     wrap                    : true,
@@ -124,10 +124,10 @@ module.exports = function (grunt) {
 
         bower: {
             options: {
-                exclude: ['modernizr','qunit','mocha']
+                exclude: ['modernizr','qunit','mocha','chai']
             },
             all: {
-                rjsConfig: 'scripts/src/config.js'
+                rjsConfig: 'htdocs/scripts/src/config.js'
             }
         },
 		connect: {

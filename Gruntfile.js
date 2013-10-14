@@ -50,8 +50,20 @@ module.exports = function (grunt) {
 					'<%= config.src %>/{,*/}*.html',
 					'<%= config.src %>/{,*/}*.php',
 					'<%= config.src %>/scripts/src/{,*/}*.js',
-				//	'<%= config.src %>/styles/{,*/}*.{css,less,scss,sass}',
-				//	'<%= config.src %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+					'<%= config.src %>/styles/{,*/}*.{css,less,scss,sass}',
+					'<%= config.src %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+				]
+			}
+		},
+
+		php2html: {
+			all: {
+				options: {
+					// relative links should be renamed from .php to .html
+					processLinks: true
+				},
+				files: [
+					{expand: true, cwd: appConfig.src, src: ['**/*.php'], dest: appConfig.dist, ext: '.html' }
 				]
 			}
 		},

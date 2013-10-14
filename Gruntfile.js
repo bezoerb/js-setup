@@ -4,53 +4,62 @@ var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 var mountFolder = function (connect, dir) {
 	var path = require('path').resolve(dir);
-	console.log(path);
 	return connect.static(path);
 };
 
+var gateway = require('gateway');
 
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
-    // show elapsed time at the end
+
+	// show elapsed time at the end
     require('time-grunt')(grunt);
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
 	// configurable paths
 	var appConfig = {
-		app: 'htdocs'
+		dist: 'htdocs',
+		src: 'htdocs'
 	};
 
 
 	grunt.initConfig({
 		config: appConfig,
-
-        watch: {
-            livereload: {
-                options: {
-                    livereload: LIVERELOAD_PORT
-                },
-                files: [
-                    '<%= config.app %>/**/*.{php,html}',
-                    '.tmp/styles/{,*/}*.css',
-                    '<%= config.app %>/scripts/src/**/*.js',
-                    '<%= config.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-                ]
-            },
-			test: {
-				files: ['<%= config.app %>/scripts/**/*.js'],
-				tasks: ['test']
+		watch: {
+			bower: {
+				files: ['<%= config.src %>/scripts/src/vendor/**/*.js'],
+				tasks: ['bower']
+			},
+			javascript: {
+				files: [
+					'<%= config.src %>/scripts/src/**/*.js',
+					'!<%= config.src %>/scripts/src/vendor'
+				],
+				tasks: ['jshint']
+			},
+			//styles: {
+			//	files: ['<%= config.dist %>/styles/{,*/}*.css'],
+			//	tasks: ['copy:styles', 'autoprefixer']
+			//},
+			livereload: {
+				options: {
+					livereload: LIVERELOAD_PORT
+				},
+				files: [
+					'<%= config.src %>/{,*/}*.html',
+					'<%= config.src %>/{,*/}*.php',
+					'<%= config.src %>/scripts/src/{,*/}*.js',
+				//	'<%= config.src %>/styles/{,*/}*.{css,less,scss,sass}',
+				//	'<%= config.src %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+				]
 			}
-        },
+		},
 
         clean: {
             server: '.tmp',
-			dist: ['<%= config.app %>/scripts/main.js','<%= config.app %>/scripts/main.js.map']
+			dist: ['<%= config.dist %>/scripts/main.js','<%= config.dist %>/scripts/main.js.map'],
+			bower: ['<%= config.dist %>/scripts/src/vendor/*']
         },
 
 		// Testing Tools
@@ -60,17 +69,16 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= config.app %>/scripts/src/**/*.js',
-                '!<%= config.app %>/scripts/src/config.js',
+                '<%= config.src %>/scripts/src/**/*.js',
+                '!<%= config.src %>/scripts/src/config.js',
 				// no tests on external code,
 				// won't make you happy
-                '!<%= config.app %>/scripts/src/vendor/**/*.js'
+                '!<%= config.src %>/scripts/src/vendor/**/*.js'
            //     'test/{,*/}*.js'
             ]
         },
 
 		qunit: {
-			//all: ['test/qunit/**/*.html']
 			all: {
 				options: {
 					// Pipe output console.log from your JS to grunt. False by default.
@@ -83,13 +91,11 @@ module.exports = function (grunt) {
 		mocha: {
 			all: {
 				options: {
-					// Pipe output console.log from your JS to grunt. False by default.
 					log: true,
-
 					// Select a Mocha reporter
 					// http://visionmedia.github.com/mocha/#reporters
+					// Pipe output console.log from your JS to grunt. False by default.
 					reporter: 'Spec',
-					//reporter: 'Landing',
 					urls: ['http://localhost:<%= connect.options.port %>/test/mocha.html']
 				}
 			}
@@ -97,15 +103,14 @@ module.exports = function (grunt) {
 
 		jasmine: {
 			all: {
-				//src: 'scripts/src/**/*.js',
 				options: {
-					specs: '<%= config.app %>/test/jasmine/spec/*Spec.js',
+					specs: '<%= config.src %>/test/jasmine/spec/*Spec.js',
 					host: 'http://localhost:<%= connect.options.port %>/',
 					template: require('grunt-template-jasmine-requirejs'),
 					templateOptions: {
-						requireConfigFile: '<%= config.app %>/scripts/src/config.js',
+						requireConfigFile: '<%= config.src %>/scripts/src/config.js',
 						requireConfig: {
-							baseUrl: '<%= config.app %>/scripts/src/'
+							baseUrl: '<%= config.src %>/scripts/src/'
 						}
 					}
 				}
@@ -114,14 +119,14 @@ module.exports = function (grunt) {
 
 
         requirejs: {
-            dist: {
+            all: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    baseUrl                 : '<%= config.app %>/scripts/src',
+                    baseUrl                 : '<%= config.src %>/scripts/src',
                     name                    : 'vendor/requirejs/require',
                     include                 : 'main',
-                    out                     : '<%= config.app %>/scripts/main.js',
-                    mainConfigFile          : '<%= config.app %>/scripts/src/config.js',
+                    out                     : '<%= config.dist %>/scripts/main.js',
+                    mainConfigFile          : '<%= config.src %>/scripts/src/config.js',
                     preserveLicenseComments : false,
                     useStrict               : true,
                     wrap                    : true,
@@ -137,9 +142,16 @@ module.exports = function (grunt) {
                 exclude: ['modernizr','qunit','mocha','chai']
             },
             all: {
-                rjsConfig: '<%= config.app %>/scripts/src/config.js'
+                rjsConfig: '<%= config.src %>/scripts/src/config.js'
             }
         },
+
+		open: {
+			server: {
+				path: 'http://localhost:<%= connect.options.port %>'
+			}
+		},
+
 		connect: {
 			options: {
 				port: 9000,
@@ -151,8 +163,11 @@ module.exports = function (grunt) {
 					middleware: function (connect) {
 						return [
 							lrSnippet,
-							mountFolder(connect, '.tmp'),
-							mountFolder(connect, appConfig.app)
+							gateway(__dirname + '/' + appConfig.src, {
+								'.php': 'php-cgi'
+							}),
+							mountFolder(connect, appConfig.src),
+							mountFolder(connect, '.')
 						];
 					}
 				}
@@ -161,8 +176,21 @@ module.exports = function (grunt) {
 				options: {
 					middleware: function (connect) {
 						return [
-							mountFolder(connect, '.tmp'),
-							mountFolder(connect, appConfig.app),
+							gateway(__dirname + '/' + appConfig.src, {
+								'.php': 'php-cgi'
+							}),
+							mountFolder(connect, appConfig.src),
+							mountFolder(connect, '.')
+						];
+					}
+				}
+			},
+
+			dist: {
+				options: {
+					middleware: function (connect) {
+						return [
+							mountFolder(connect, appConfig.dist),
 							mountFolder(connect, '.')
 						];
 					}
@@ -179,7 +207,8 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'connect:livereload',
-            'watch'
+			'open',
+			'watch'
         ]);
     });
 
@@ -200,13 +229,6 @@ module.exports = function (grunt) {
 		// qunit
 		grunt.task.run(['qunit']);
 	});
-
-    grunt.registerTask('tsest', [
-        'jshint:all',
-		'qunit:all',
-		'connect:mocha',
-		'mocha'
-    ]);
 
     grunt.registerTask('build', [
         'bower',

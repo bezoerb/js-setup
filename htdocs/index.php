@@ -15,7 +15,8 @@
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
+        asdasdasd
+		<?php  echo "<h1>Hello from PHP!</h1>"; ?>
         <!-- build:js scripts/main.js -->
         <script src="../scripts/src/config.js"></script>
         <script data-main="scripts/src/main" src="scripts/src/vendor/requirejs/require.js"></script>

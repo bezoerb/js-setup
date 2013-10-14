@@ -19,9 +19,9 @@ node_modules
 # Created by http://gitignore.io
 
 
-scripts/main.js
-scripts/main.js.map
-scripts/src/vendor/
+htdocs/scripts/main.js
+htdocs/scripts/main.js.map
+htdocs/scripts/src/vendor/
 
 
 ### PhPStorm ###
